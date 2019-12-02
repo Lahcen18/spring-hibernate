@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.luv2code.hibernate.demo.entity.Student;
 
-public class CreateStudentDemo {
+public class ReadStudentDemo {
 
 	public static void main(String[] args) {
 
@@ -22,7 +22,7 @@ public class CreateStudentDemo {
 			// create a new student object
 			System.out.println("create new Student!");
 
-			Student theStudent = new Student("Lahcen", "Elalem", "lelalem@free.fr");
+			Student theStudent = new Student("minouche", "lechat", "lechat@free.fr");
 
 			// start the transaction
 			session.beginTransaction();
@@ -35,8 +35,25 @@ public class CreateStudentDemo {
 
 			session.getTransaction().commit();
 			session.close();
+
+			// retrieve object from DB
+			
+			System.out.println("\nid: " + theStudent.getId());
+			
+			// now get a new session & start a transaction
+			session = factory.getCurrentSession();
+			session.beginTransaction();
+
+			// retrieve object
+			Student myStudent = session.get(Student.class, theStudent.getId());
+			System.out.println("object retrieved from DB: " + myStudent);
+			
+			// commit this transaction
+			session.getTransaction().commit();
+			session.close();
 			
 			System.out.println("Done!");
+			
 		} catch (Exception excp) {
 			excp.printStackTrace();
 
