@@ -1,5 +1,8 @@
 package com.luv2code.hibernate.demo.entity;
 
+import java.text.ParseException;
+import java.util.Date;
+
 /**
  * (JPA: Java Persistence API => javax.persistence)
  * JPA is a standard specification.
@@ -13,6 +16,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.luv2code.hibernate.demo.DateUtils;
 
 @Entity
 @Table(name="student")
@@ -31,16 +38,28 @@ public class Student {
 	
 	@Column(name="email")
 	private String email;
-	
+
+    @Column(name="date_of_birth")
+    @Temporal(TemporalType.DATE)    
+    private Date dateOfBirth;
+
 	public Student () {
 		
 	}
 
-	public Student(String firstName, String lastName, String email) {
+
+	public Student(String firstName, String lastName, String email, String theDate) {
+		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+        try {
+        	this.dateOfBirth = DateUtils.parseDate(theDate);
+		} catch (ParseException e) {
+			this.dateOfBirth = null;
+		}
 	}
+
 
 	public int getId() {
 		return id;
@@ -74,8 +93,21 @@ public class Student {
 		this.email = email;
 	}
 
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", dateOfBirth=" + DateUtils.formatDate(dateOfBirth) + "]";
 	}
+
+
 }

@@ -20,9 +20,8 @@ public class ReadStudentDemo {
 		Session session = factory.getCurrentSession();
 		try {
 			// create a new student object
-			System.out.println("create new Student!");
-
-			Student theStudent = new Student("minouche", "lechat", "lechat@free.fr");
+			System.out.println("create new Student! & start new transaction");
+			Student theStudent = new Student("Minouche", "Lechat", "mlechat@sfr.fr", "15/07/2002");
 
 			// start the transaction
 			session.beginTransaction();
@@ -52,7 +51,7 @@ public class ReadStudentDemo {
 			session.getTransaction().commit();
 			session.close();
 			
-			System.out.println("Done!");
+			System.out.println("Done!\n");
 			
 		} catch (Exception excp) {
 			excp.printStackTrace();
